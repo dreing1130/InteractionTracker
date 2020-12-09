@@ -149,4 +149,6 @@ const ajaxHelperService = {
   }
 };
 
-export default ajaxHelperService;
+export {
+  ajaxHelperService
+};

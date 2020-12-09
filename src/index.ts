@@ -1,4 +1,4 @@
-import api from './api'
+import {api} from './api'
 
 let configuration: Configuration = {
   customerId: null,
@@ -54,6 +54,6 @@ const reservedAttributes = {
   itemId: 'personalize-itemId',
 }
 
-export default {
+export {
   initialize
 };

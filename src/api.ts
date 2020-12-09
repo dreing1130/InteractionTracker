@@ -6,4 +6,6 @@ const api: API = {
   }
 }
 
-export default api;
+export {
+  api
+};
