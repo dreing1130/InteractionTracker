@@ -1,3 +1,4 @@
+import { Configuration, EventHook, RecordEventPayload } from '../@types';
 import {api} from './api'
 
 let configuration: Configuration = {
@@ -40,11 +41,10 @@ const bindEvents = () => {
 const eventHandler = (el: HTMLElement, event: EventHook) => {
   return (_e: Event) => {
     const itemId = el.getAttribute(reservedAttributes.itemId) as string;
-    const eventName = el.getAttribute(event.hookName) as string;
     const payload: RecordEventPayload = {
       itemId,
       customerId: configuration.customerId,
-      eventName,
+      eventName: event.eventName,
     };
     api.recordEvent(payload, configuration.apiBaseUrl);
   };
@@ -54,6 +54,6 @@ const reservedAttributes = {
   itemId: 'personalize-itemId',
 }
 
-export {
+export default {
   initialize
 };

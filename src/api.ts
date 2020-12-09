@@ -1,8 +1,11 @@
+import { API, RecordEventPayload } from '../@types';
+import ajaxHelperService from './ajaxHelperService';
+
 const api: API = {
-  recordEvent: (payload: RecordEventPayload, _baseUrl: string) => {
+  recordEvent: (payload: RecordEventPayload, baseUrl: string) => {
     console.log(payload);
-    // const url = baseUrl + '/recordEvent';
-    return Promise.resolve();
+    const apiUrl = `${baseUrl.trim().replace(/\/$/, '')}/recordEvent`;
+    return ajaxHelperService.post(apiUrl, payload);
   }
 }
 

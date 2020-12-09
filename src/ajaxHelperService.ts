@@ -25,26 +25,6 @@ const helpers = {
       data: obj,
     };
   },
-  setUpRequestByOrigin: (
-    method: 'GET' | 'POST' = 'GET',
-    body: any,
-    requestMode: RequestMode,
-    contentType?: string,
-    customHeaders?: Headers,
-  ): RequestInit => {
-    const headers = customHeaders || new Headers();
-    if (contentType) {
-      headers.append('Content-Type', contentType);
-    }
-
-    return {
-      method,
-      credentials: 'same-origin',
-      mode: requestMode,
-      body,
-      headers,
-    };
-  },
   formatParams: (params: any) => {
     if (!params) {
       return '';
@@ -65,13 +45,16 @@ const ajaxHelperService = {
   post(apiUrl: string, obj?: any): Promise<any> {
     return new Promise((resolve, reject) => {
       const { url, data } = helpers.parsePostParameters(apiUrl, obj);
-      const requestMode = 'cors';
-      const request = helpers.setUpRequestByOrigin(
-        'POST',
-        JSON.stringify(data),
-        requestMode,
-        'application/json; charset=utf8',
-      );
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+
+      const request: RequestInit = {
+        method: 'POST',
+        credentials: 'same-origin',
+        mode: 'cors',
+        body: JSON.stringify(data),
+        headers,
+      };
 
       fetch(url, request)
         .then(helpers.okCheck)
@@ -149,6 +132,4 @@ const ajaxHelperService = {
   }
 };
 
-export {
-  ajaxHelperService
-};
+export default ajaxHelperService;

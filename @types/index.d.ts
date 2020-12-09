@@ -1,19 +1,8 @@
-interface Configuration {
-  customerId: string|null,
-  domain: string,
-  apiBaseUrl: string,
-  events: EventHook[],
+import { Configuration } from './interfaces';
+
+declare const interactionTracker : {
+  initialize:(configuration: Configuration) => void
 }
-interface EventHook {
-  hookName: string,
-  type: 'click'|'hover',
-  eventName: string,
-}
-interface RecordEventPayload {
-  itemId: string,
-  customerId: string | null,
-  eventName: string,
-}
-interface API {
-  recordEvent: (payload: RecordEventPayload, baseUrl: string) => Promise<void>,
-}
+
+export * from './interfaces';
+export default interactionTracker
