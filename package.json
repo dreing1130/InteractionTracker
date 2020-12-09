@@ -1,6 +1,6 @@
 {
   "name": "interaction-tracker",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A module to track customer interactions and send them to an AWS endpoint to store.",
   "main": "./build/index.js",
   "types": "@types/index.d.ts",
@@ -14,7 +14,7 @@
   },
   "author": "David Reing",
   "bin": {
-    "interaction-tracker": "./lib/index.js"
+    "interaction-tracker": "./build/index.js"
   },
   "license": "ISC",
   "bugs": {
