@@ -1,0 +1,35 @@
+{
+  "name": "interaction-tracker",
+  "version": "0.0.1",
+  "description": "A module to track customer interactions and send them to an AWS endpoint to store.",
+  "main": "./build/index.js",
+  "scripts": {
+    "start": "nodemon src/index.ts",
+    "build": "tsc -p .",
+    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dreing1130/InteractionTracker.git"
+  },
+  "author": "David Reing",
+  "bin": {
+    "interaction-tracker": "./lib/index.js"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dreing1130/InteractionTracker/issues"
+  },
+  "homepage": "https://github.com/dreing1130/InteractionTracker#readme",
+  "devDependencies": {
+    "@types/node": "^14.14.10",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "nodemon": "^2.0.6",
+    "prettier": "^1.19.1",
+    "ts-node": "^9.0.0",
+    "typescript": "^3.7.5"
+  }
+}
