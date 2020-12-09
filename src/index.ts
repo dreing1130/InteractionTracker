@@ -54,6 +54,6 @@ const reservedAttributes = {
   itemId: 'personalize-itemId',
 }
 
-export {
+export default {
   initialize
 };

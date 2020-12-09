@@ -28,7 +28,6 @@ const initialize = (_configuration) => {
     configuration = _configuration;
     bindEvents();
 };
-exports.initialize = initialize;
 const bindEvents = () => {
     configuration.events.forEach((event) => {
         const elements = [...document.querySelectorAll(`[${event.hookName}]`)];
@@ -51,4 +50,7 @@ const eventHandler = (el, event) => {
 };
 const reservedAttributes = {
     itemId: 'personalize-itemId',
+};
+exports.default = {
+    initialize
 };
