@@ -5,9 +5,10 @@ declare interface Configuration {
   events: EventHook[],
 }
 declare interface EventHook {
-  hookName: string,
-  type: 'click'|'hover',
+  hookSelector: string,
+  type: 'click'|'mouseenter',
   eventName: string,
+  itemIdGetter: (triggerElement: HTMLElement) => string
 }
 declare interface RecordEventPayload {
   itemId: string,

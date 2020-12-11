@@ -1,3 +1,4 @@
+import { exception } from 'console';
 import { Configuration, EventHook, RecordEventPayload } from '../@types';
 import {api} from './api'
 
@@ -30,17 +31,32 @@ const initialize = (_configuration: Configuration) => {
 };
 
 const bindEvents = () => {
-  configuration.events.forEach((event) => {
-    const elements = [...document.querySelectorAll(`[${event.hookName}]`)] as HTMLElement[];
-    elements.forEach((el) => {
-      el.addEventListener(event.type, eventHandler(el, event))
-    });
+  const eventNames = configuration.events
+    .map((e) => e.eventName)
+    .filter((v, i, a) => a.indexOf(v) === i);
+  eventNames.forEach((eventName) => {
+    bindEvent(eventName);
   });
+}
+
+const bindEvent = (eventName: string) => {
+  document.addEventListener(eventName, (firedEvent) => {
+    const releventEvents = configuration.events.filter((trackedEvent) => trackedEvent.eventName === eventName);
+    releventEvents.forEach((trackedEvent) => {
+      const element = (firedEvent.target as HTMLElement);
+      if(element.matches(trackedEvent.hookSelector)){
+        eventHandler(element, trackedEvent);
+      }
+    });
+  }, {passive: true, });
 }
 
 const eventHandler = (el: HTMLElement, event: EventHook) => {
   return (_e: Event) => {
-    const itemId = el.getAttribute(reservedAttributes.itemId) as string;
+    const itemId = event.itemIdGetter(el);
+    if(!itemId){
+      throw exception('Interaction tracker unable to find item id', event, el);
+    }
     const payload: RecordEventPayload = {
       itemId,
       customerId: configuration.customerId,
@@ -48,10 +64,6 @@ const eventHandler = (el: HTMLElement, event: EventHook) => {
     };
     api.recordEvent(payload, configuration.apiBaseUrl);
   };
-}
-
-const reservedAttributes = {
-  itemId: 'personalize-itemId',
 }
 
 export default {
