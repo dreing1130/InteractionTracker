@@ -1,15 +1,17 @@
 {
   "name": "interaction-tracker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A module to track customer interactions and send them to an AWS endpoint to store.",
   "scripts": {
-    "build": "tsc -p .",
+    "build": "tsc",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
   },
   "author": "AC Lens",
+  "bin": {
+    "interaction-tracker": "./build/index.js"
+  },
   "license": "MIT",
   "main": "./build/index.js",
-  "module": "./build/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/dreing1130/InteractionTracker.git"
