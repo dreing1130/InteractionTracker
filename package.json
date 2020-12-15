@@ -10,8 +10,9 @@
   "license": "MIT",
   "main": "./build/index.js",
   "module": "./build/index.js",
-  "publishConfig": {
-    "registry": "https://tfs.ssl.aclenscorp.com/tfs/ACLens%20Main/_packaging/ACLensNugetRepository/npm/registry/"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dreing1130/InteractionTracker.git"
   },
   "private": false,
   "types": "@types/index.d.ts",
