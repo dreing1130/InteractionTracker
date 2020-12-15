@@ -1,21 +1,16 @@
-import { exception } from 'console';
-import { Configuration, EventHook, RecordEventPayload } from '../@types';
+import { Configuration, InteractionHook, RecordInteractionPayload } from '../@types';
 import {api} from './api'
 
 let configuration: Configuration = {
-  customerId: null,
-  domain: '',
   apiBaseUrl: '',
-  events: [],
+  customerId: null,
+  interactions: [],
+  sessionId: '',
 };
 
 const validateConfiguration = (_configuration: Configuration) => {
   if(!!configuration.apiBaseUrl) {
     console.error('An API base url must be set')
-    return false;
-  }
-  if(!!configuration.domain) {
-    console.error('A site domain must be provided')
     return false;
   }
   return true;
@@ -31,39 +26,38 @@ const initialize = (_configuration: Configuration) => {
 };
 
 const bindEvents = () => {
-  const eventNames = configuration.events
-    .map((e) => e.eventName)
+  const eventTypes = configuration.interactions
+    .map((e) => e.eventType)
     .filter((v, i, a) => a.indexOf(v) === i);
-  eventNames.forEach((eventName) => {
-    bindEvent(eventName);
+    eventTypes.forEach((eventType) => {
+    bindEvent(eventType);
   });
 }
 
-const bindEvent = (eventName: string) => {
-  document.addEventListener(eventName, (firedEvent) => {
-    const releventEvents = configuration.events.filter((trackedEvent) => trackedEvent.eventName === eventName);
-    releventEvents.forEach((trackedEvent) => {
-      const element = (firedEvent.target as HTMLElement);
-      if(element.matches(trackedEvent.hookSelector)){
-        eventHandler(element, trackedEvent);
+const bindEvent = (eventType: string) => {
+  document.addEventListener(eventType, (event) => {
+    const releventInteractions = configuration.interactions.filter((trackedInteraction) => trackedInteraction.eventType === eventType);
+    releventInteractions.forEach((trackedInteraction) => {
+      const element = (event.target as HTMLElement);
+      if(element.matches(trackedInteraction.hookSelector)){
+        recordInteraction(element, trackedInteraction);
       }
     });
   }, {passive: true, });
 }
 
-const eventHandler = (el: HTMLElement, event: EventHook) => {
-  return (_e: Event) => {
-    const itemId = event.itemIdGetter(el);
-    if(!itemId){
-      throw exception('Interaction tracker unable to find item id', event, el);
-    }
-    const payload: RecordEventPayload = {
-      itemId,
-      customerId: configuration.customerId,
-      eventName: event.eventName,
-    };
-    api.recordEvent(payload, configuration.apiBaseUrl);
+const recordInteraction = (el: HTMLElement, interaction: InteractionHook) => {
+  const itemId = interaction.itemIdGetter(el);
+  if(!itemId){
+    throw new Error('Interaction tracker unable to find item id');
+  }
+  const payload: RecordInteractionPayload = {
+    itemId,
+    customerId: configuration.customerId,
+    interactionName: interaction.interactionName,
+    sessionId: configuration.sessionId,
   };
+  api.recordInteraction(payload, configuration.apiBaseUrl);
 }
 
 export default {

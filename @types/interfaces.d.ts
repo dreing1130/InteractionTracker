@@ -1,27 +1,31 @@
 declare interface Configuration {
-  customerId: string|null,
-  domain: string,
   apiBaseUrl: string,
-  events: EventHook[],
+  customerId: string|null,
+  interactions: InteractionHook[],
+  sessionId: string,
 }
-declare interface EventHook {
+
+declare interface InteractionHook {
+  eventType: 'click'|'mouseenter',
   hookSelector: string,
-  type: 'click'|'mouseenter',
-  eventName: string,
-  itemIdGetter: (triggerElement: HTMLElement) => string
+  interactionName: string,
+  itemIdGetter: (triggerElement: HTMLElement) => string,
 }
-declare interface RecordEventPayload {
-  itemId: string,
+
+declare interface RecordInteractionPayload {
   customerId: string | null,
-  eventName: string,
+  itemId: string,
+  interactionName: string,
+  sessionId: string,
 }
+
 declare interface API {
-  recordEvent: (payload: RecordEventPayload, baseUrl: string) => Promise<void>,
+  recordInteraction: (payload: RecordInteractionPayload, baseUrl: string) => Promise<void>,
 }
 
 export {
   Configuration,
-  EventHook,
-  RecordEventPayload,
+  InteractionHook,
+  RecordInteractionPayload,
   API
 }

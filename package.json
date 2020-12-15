@@ -1,26 +1,20 @@
 {
   "name": "interaction-tracker",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "A module to track customer interactions and send them to an AWS endpoint to store.",
-  "main": "./build/index.js",
-  "types": "@types/index.d.ts",
   "scripts": {
     "build": "tsc -p .",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dreing1130/InteractionTracker.git"
+  "author": "AC Lens",
+  "license": "MIT",
+  "main": "./build/index.js",
+  "module": "./build/index.js",
+  "publishConfig": {
+    "registry": "https://tfs.ssl.aclenscorp.com/tfs/ACLens%20Main/_packaging/ACLensNugetRepository/npm/registry/"
   },
-  "author": "David Reing",
-  "bin": {
-    "interaction-tracker": "./build/index.js"
-  },
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dreing1130/InteractionTracker/issues"
-  },
-  "homepage": "https://github.com/dreing1130/InteractionTracker#readme",
+  "private": false,
+  "types": "@types/index.d.ts",
   "devDependencies": {
     "@types/node": "^14.14.10",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
